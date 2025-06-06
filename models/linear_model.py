@@ -7,16 +7,18 @@ import numpy as np
 
 class LinearModel:
 
-    def __init__(self, w, c):
+    def __init__(self, dim):
         """
         w : coef, array (d,)
         c : intercept, float
         """
+        self.dim = dim
 
         self.params = {
-            'coef': w, # shape (d,)
-            'intercept': c
+            'coef': np.random.randn(dim), # shape (d,)
+            'intercept': np.random.randn(1)
         }
+
         self.cache = {}
 
 
@@ -24,6 +26,9 @@ class LinearModel:
         """
         Calculate y_pred given x and the current params, then update the cache.
         """
+    
+        if x.ndim == 1:
+            x = x.reshape(-1,self.dim)
 
         y_pred = x @ self.params['coef']  + self.params['intercept'] 
 
@@ -50,7 +55,12 @@ class LinearModel:
         return {'coef': dldw, 'intercept': dldc}
 
 
-
-
+    def update(self, new_params):
+        """
+        Update model params to new_params.
+        """
+        self.params = new_params
+        return None
+    
 if __name__ == "__main__":
     pass
