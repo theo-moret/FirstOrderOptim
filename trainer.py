@@ -13,16 +13,16 @@ if __name__ == "__main__":
 
     # Generate data
 
-    w, c = 4, -2 # True params
+    w, c = np.array([4.,1.]), -2 # True params
     n = 10000 # Number of points 
-    X = np.random.random_sample((n,))
-    noise = np.random.normal(0.0, 0.2, (n,))
-    Y = w * X + c + noise
+    X = np.random.random_sample((n,2))
+    noise = np.random.normal(0.0, 0.5, (n,))
+    Y = X @ w + c + noise
 
 
     # Initialize model, loss, and optimizer
 
-    model = LinearModel(dim=1)
+    model = LinearModel(dim=2)
     loss = MSELoss()
     optimizer = GradientDescent(learning_rate=0.2)
 
@@ -41,7 +41,7 @@ if __name__ == "__main__":
             # Make prediction
             y_pred = model.forward(x)
 
-            # Check loss
+            # Check loss at beginning of epoch
             if i == 0:
                 print(f"Epoch {epoch} - Loss : {loss.forward(y_pred, y)}")
 
