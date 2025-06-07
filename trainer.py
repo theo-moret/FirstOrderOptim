@@ -3,7 +3,8 @@
 import numpy as np
 from losses.mse import MSELoss
 from models.linear_model import LinearModel
-from optimizers.gradient_descent import GradientDescent
+from optimizers.SGD import SGD
+from optimizers.momentum import MomentumHeavyBall
 
 
 
@@ -96,7 +97,7 @@ if __name__ == "__main__":
 
     model = LinearModel(dim=2)
     loss = MSELoss()
-    optimizer = GradientDescent(learning_rate=0.2)
+    optimizer = MomentumHeavyBall(learning_rate=0.2, gamma=0.9)
 
     # Training loop
     
