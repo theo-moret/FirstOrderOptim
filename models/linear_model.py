@@ -28,12 +28,12 @@ class LinearModel:
         """
     
         if x.ndim == 1:
-            x = x.reshape(-1,self.dim)
+            x = x.reshape(-1,self.dim) # shape (N,d)
 
-        y_pred = x @ self.params['coef']  + self.params['intercept'] 
+        y_pred = x @ self.params['coef']  + self.params['intercept'] # shape (N,)
 
-        self.cache['x'] = x # shape (N,d)
-        self.cache['y_pred'] = y_pred # shape (N,)
+        self.cache['x'] = x 
+        self.cache['y_pred'] = y_pred 
 
         return y_pred 
     
