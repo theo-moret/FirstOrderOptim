@@ -18,10 +18,13 @@ class MomentumHeavyBall(BaseOptimizer):
         lr = self.lr
         gamma = self.gamma
 
+
+        # Setup first value to grad only
         if len(self.m_cache) == 0:
             for key in params:
                 self.m_cache[key] = grads[key]
 
+        # Update momentum value
         else:
             for key in params:
                 self.m_cache[key] =  (gamma * self.m_cache[key] + (1-gamma)*grads[key])
