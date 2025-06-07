@@ -6,12 +6,12 @@ from .base import BaseOptimizer
 
 # Class
 
-class MomentumHeavyBall(BaseOptimizer):
+class Momentum(BaseOptimizer):
 
     def __init__(self, learning_rate, gamma):
         super().__init__(learning_rate)
         self.gamma = gamma
-        self.m_cache = {}
+        self.velocity = {}
 
     def step(self, params, grads):
 
@@ -20,17 +20,17 @@ class MomentumHeavyBall(BaseOptimizer):
 
 
         # Setup first value to grad only
-        if len(self.m_cache) == 0:
+        if len(self.velocity) == 0:
             for key in params:
-                self.m_cache[key] = grads[key]
+                self.velocity[key] = grads[key]
 
         # Update momentum value
         else:
             for key in params:
-                self.m_cache[key] =  (gamma * self.m_cache[key] + (1-gamma)*grads[key])
+                self.velocity[key] =  gamma * self.velocity[key] + grads[key]
         
         for key in params:
-            params[key] = params[key] - lr * self.m_cache[key]
+            params[key] = params[key] - lr * self.velocity[key]
         
         return params
 
