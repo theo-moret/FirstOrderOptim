@@ -48,7 +48,7 @@ class Trainer():
                     self.loss_cache[i +1] = loss_value
 
                 # Check loss at beginning of epoch and stock it in the cache
-                if i == 0 and print_loss == True:
+                elif i == 0 and print_loss == True:
                     print(f"Epoch {epoch} - Loss : {loss_value}")
                     self.loss_cache[epoch + 1] = loss_value
 
