@@ -5,7 +5,7 @@ from losses.mse import MSELoss
 from models.linear_model import LinearModel
 from optimizers.SGD import SGD
 from optimizers.momentum import Momentum
-
+from optimizers.NesterovMomentum import NesterovMomentum
 
 
 # Class
@@ -50,14 +50,18 @@ class Trainer():
 
                 # Check loss at beginning of epoch and stock it in the cache
                 elif i == 0 and print_loss == True:
-                    print(f"Epoch {epoch} - Loss : {loss_value}")
+                    print(f"Epoch {epoch + 1} - Loss : {loss_value}")
                     self.loss_cache[epoch + 1] = loss_value
 
                 # Obtain gradient of the loss wrt to params
                 grads = model.backward(y, loss)
 
-                # Take gradient step
-                new_params = optimizer.step(model.params, grads)
+                # Take gradient step, check if Nesterov method to handle look-ahead
+                if optimizer.__class__.__name__ == 'NesterovMomentum':
+                    new_params = optimizer.step(model, loss, y)
+                
+                else:
+                    new_params = optimizer.step(model.params, grads)
 
                 # Update model params
                 model.update(new_params)
@@ -86,22 +90,22 @@ if __name__ == "__main__":
 
     # Generate data
 
-    w, c = np.array([4.,1.]), -2 # True params
+    w, c = np.array([4.,1., -6.]), -2 # True params
     n = 10000 # Number of points 
-    X = np.random.random_sample((n,2))
+    X = np.random.random_sample((n,3))
     noise = np.random.normal(0.0, 0.5, (n,))
     Y = X @ w + c + noise
 
 
     # Initialize model, loss, and optimizer
 
-    model = LinearModel(dim=2)
+    model = LinearModel(dim=3)
     loss = MSELoss()
-    optimizer = Momentum(learning_rate=0.2, gamma=0.9)
-
+    optimizer = NesterovMomentum(learning_rate=0.2, gamma=0.9)
+    
     # Training loop
     
-    epochs = 200
+    epochs = 10
     batch_size = 100
     trainer = Trainer(model, loss, optimizer, epochs, batch_size)
 
