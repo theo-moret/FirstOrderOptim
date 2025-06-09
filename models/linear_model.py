@@ -28,19 +28,12 @@ class LinearModel:
         - d : dimension of parameters coef
         - N : number of observations in x, ie. batch_size
         - x : coef x nbr of observations
-        - override_params : dict[str, np.ndarray] or None. If provided, use these parameters instead of self.params.
         """
 
-        # Use override parameters if provided (for look-ahead, eg. Nesterov)
-        if override_params is not None:
-            params = override_params
-        else:
-            params = self.params
-    
         if x.ndim == 1:
             x = x.reshape(-1,self.dim) # shape (N,d)
 
-        y_pred = x @ params['coef']  + params['intercept'] # shape (N,)
+        y_pred = x @ self.params['coef']  + self.params['intercept'] # shape (N,)
 
         # Update the cache only if we are not override_params, ie not for look-ahead.
         if override_params is None:
@@ -53,7 +46,9 @@ class LinearModel:
 
     def backward(self, y_true, loss, override_params = None):
         """
-        Return the gradient of the loss with respect to the params. Can handle override_params for look-ahead.
+        Return the gradient of the loss with respect to the params. 
+        - override_params : dict[str, np.ndarray] or None. If provided, use these parameters instead of self.params, to compute 
+        look-ahead gradient, eg. Nesterov Momentum
         """
             
         x = self.cache['x']
