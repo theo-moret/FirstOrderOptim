@@ -11,13 +11,15 @@ from optimizers.SGD import SGD
 from optimizers.momentum import Momentum
 from optimizers.NesterovMomentum import NesterovMomentum
 from optimizers.adagrad import AdaGrad
-from models.test_functions import BoothFunction
+from models.test_functions import BoothFunction, ThreeHumpCamel
 
 # Functions 
 
 def booth_function(x, y):
     return (x + 2*y - 7)**2 + (2*x + y - 5)**2
 
+def camel_function(x, y):
+    return 2*x**2 - 1.05*x**4 + x**6/6 + x*y + y**2
 
 
 # Main
@@ -60,11 +62,12 @@ if __name__ == "__main__":
 
     if booth == True:
 
+        # Adagrad fails ! more is not always better ! 
         
-        x0, y0 = -9, -9
-        function = BoothFunction(x0, y0)
+        x0, y0 = 2, -2
+        function = ThreeHumpCamel(x0, y0)
 
-        optimizer = AdaGrad(learning_rate=1)
+        optimizer = Momentum(learning_rate=0.2, gamma=0.4)
 
         n_steps = 20
 
@@ -86,10 +89,10 @@ if __name__ == "__main__":
         print(f'Minimum estimated at ({function.params})')
 
         # Grid 
-        x_vals = np.linspace(-10, 10, 400)
-        y_vals = np.linspace(-10, 10, 400)
+        x_vals = np.linspace(-2.01, 2.01, 100)
+        y_vals = np.linspace(-2.01, 2.01, 100)
         X, Y = np.meshgrid(x_vals, y_vals)
-        Z = booth_function(X, Y)
+        Z = camel_function(X, Y)
 
         # Plot contours
         plt.figure(figsize=(8, 6))
