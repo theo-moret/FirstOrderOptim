@@ -13,7 +13,6 @@ class SGD(BaseOptimizer):
 
     def step(self, params, grads):
         lr = self.lr
-        
         for key in params:
             params[key] = params[key] - lr * grads[key]
         
