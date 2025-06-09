@@ -5,7 +5,7 @@ class BaseOptimizer:
     def __init__(self, learning_rate):
         self.lr = learning_rate
 
-    def update(self, params, grads):
+    def step(self, params, grads):
         raise NotImplementedError("Update method not implemented.")
 
 
