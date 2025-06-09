@@ -8,14 +8,14 @@ import numpy as np
 
 class AdaGrad(BaseOptimizer):
 
-    def __init__(self, learning_rate, eps=1e-8):
+    def __init__(self, learning_rate=1e-2, eps=1e-8):
         super().__init__(learning_rate)
         self.eps = eps
         self.gradient_cache = {}
 
     def step(self, params, grads):
         """ Implement Adagrad optimizer step. """
-        
+
         lr = self.lr
         eps = self.eps
 
