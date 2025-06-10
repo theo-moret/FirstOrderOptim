@@ -2,7 +2,9 @@
 
 # FirstOrderOptim
 
-A modular Python framework for experimenting with first-order optimization algorithms on models and test functions. This project is designed for educational purposes. It only relies on 'numpy' for computation, and 'matplotlib' for visualization. The goal is to provide a clear understanding of how each optimization method works, with clean, readable code.
+A modular Python framework for experimenting with first-order optimization algorithms on models and test functions. This project is designed for educational purposes. It only relies on [`numpy`](https://numpy.org/) for computation and [`matplotlib`](https://matplotlib.org/) for visualization. 
+
+The goal is to provide a clear understanding of how each optimization method works, with clean, readable code.
 
 
 📚 A detailed blog post will come soon.
