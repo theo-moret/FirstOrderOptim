@@ -27,7 +27,7 @@ The goal is to provide a clear understanding of how each optimization method wor
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/yourusername/FirstOrderOptim.git
+git clone https://github.com/theo-moret/FirstOrderOptim
 cd FirstOrderOptim
 pip install numpy matplotlib
 ```
