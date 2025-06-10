@@ -1,6 +1,18 @@
 # Import 
 
 import numpy as np
+import logging  
+
+
+# Log Setting 
+
+logging.basicConfig(
+    level=logging.INFO,  
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+    ]
+)
 
 # Class
 
@@ -73,7 +85,7 @@ class Trainer():
                 model.update(new_params)
 
             avg_loss = epoch_loss / n_batches
-            print(f"Epoch {epoch+1}/{self.n_epochs} - Loss: {avg_loss:.4f}")
+            logging.info(f"Epoch {epoch+1}/{self.n_epochs} - Loss: {avg_loss:.4f}")
 
         return None
     
