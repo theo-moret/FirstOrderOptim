@@ -27,7 +27,7 @@ class Momentum(BaseOptimizer):
         # Update momentum value
         else:
             for key in params:
-                self.velocity[key] =  gamma * self.velocity[key] + grads[key]
+                self.velocity[key] =  gamma * self.velocity[key] + (1-gamma)*grads[key]
         
         for key in params:
             params[key] = params[key] - lr * self.velocity[key]
