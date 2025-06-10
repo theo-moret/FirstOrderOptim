@@ -16,7 +16,7 @@ class Trainer():
         self.loss_cache = {}
 
 
-    def train(self, X, Y, print_loss = True):
+    def train(self, X, Y):
         """
         Set up a training loop for the model given data (X,Y). The parameter print_loss allows for loss printing at the beginning of every epoch. 
         If the number of epoch is 1, then the losses are stocked into the cache for every batch.
@@ -31,29 +31,31 @@ class Trainer():
 
 
         for epoch in range(self.n_epochs):
+            
+            # Shuffle data at the start of each epoch
+            indices = np.random.permutation(n)
+            X_shuffled = X[indices]
+            Y_shuffled = Y[indices]
+            
+            
+            epoch_loss = 0
+
             for i in range(n_batches):
                 # Fetch data
-                x = X[i * batch_size: (i+1) * batch_size]
-                y = Y[i * batch_size: (i+1) * batch_size]
+                start = i * batch_size
+                end = min((i+1) * batch_size, n)
+                x_batch = X_shuffled[start:end]
+                y_batch = Y_shuffled[start:end]
 
                 # Make prediction
-                y_pred = model.forward(x)
+                y_pred = model.forward(x_batch)
 
                 # Loss value evaluation
-                loss_value = loss.forward(y_pred, y)
-                
-                # Print and stock loss value for evey batch if the number of epoch is 1
-                if self.n_epochs == 1:
-                    print(f"Batch {i+1} - Loss : {loss_value}")
-                    self.loss_cache[i +1] = loss_value
-
-                # Check loss at beginning of epoch and stock it in the cache
-                elif i == 0 and print_loss == True:
-                    print(f"Epoch {epoch + 1} - Loss : {loss_value}")
-                    self.loss_cache[epoch + 1] = loss_value
+                batch_loss = loss.forward(y_pred, y_batch)
+                epoch_loss += batch_loss
 
                 # Obtain gradient of the loss wrt to params
-                grads = model.backward(y, loss)
+                grads = model.backward(y_batch, loss)
 
                 # Take gradient step, check if Nesterov method to handle look-ahead
                 if optimizer.__class__.__name__ == 'NesterovMomentum':
@@ -65,6 +67,8 @@ class Trainer():
                 # Update model params
                 model.update(new_params)
 
+            avg_loss = epoch_loss / n_batches
+            print(f"Epoch {epoch+1}/{self.n_epochs} - Loss: {avg_loss:.4f}")
 
         return None
     
