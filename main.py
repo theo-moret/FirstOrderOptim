@@ -13,14 +13,6 @@ from optimizers.NesterovMomentum import NesterovMomentum
 from optimizers.adagrad import AdaGrad
 from models.test_functions import BoothFunction, ThreeHumpCamel
 
-# Functions 
-
-def booth_function(x, y):
-    return (x + 2*y - 7)**2 + (2*x + y - 5)**2
-
-def camel_function(x, y):
-    return 2*x**2 - 1.05*x**4 + x**6/6 + x*y + y**2
-
 
 # Main
 
@@ -29,12 +21,13 @@ if __name__ == "__main__":
     np.random.seed(1)
 
     linear = False 
-    booth = True 
+    linearSparse = True
+    booth = False 
 
     if linear == True :
-        # Generate data
+       # Generate data
 
-        w, c = np.array([4.,2., -10.]), -2 # True params
+        w , c = np.array([4.,2., -10.]), -2 # True params
         n = 10000 # Number of points 
         X = np.random.random_sample((n,3))
         noise = np.random.normal(0.0, 0.5, (n,))
@@ -60,16 +53,53 @@ if __name__ == "__main__":
         print(f"Estimated params : (w_esti, c_esti) = ({model.params['coef']},{model.params['intercept']})")
 
 
+    if linearSparse == True:
+
+        # Generate Sparse Data in high-dimension via one-hot encoding 
+
+        d = 1000  # dim input space
+        n = 10000  
+
+        # OneHot
+        indices = np.random.randint(0, d, size=n)  # indices to oneHot
+        X = np.eye(d)[indices]  
+
+        # True Params
+        w = np.random.randn(d) 
+        c = -2.0
+
+        # Données de sortie
+        noise = np.random.normal(0.0, 0.1, size=n)
+        Y = w[indices] + c + noise  
+
+
+        # Initialize model, loss, and optimizer
+
+        model = LinearModel(dim=d)
+        loss = MSELoss()
+        optimizer = SGD(learning_rate=0.2)
+        
+        # Training loop
+        
+        epochs = 100
+        batch_size = 100
+        trainer = Trainer(model, loss, optimizer, epochs, batch_size)
+
+        trainer.train(X,Y)
+
+
+        print(np.linalg.norm(w-model.params['coef']))
+
     if booth == True:
 
         # Adagrad fails ! more is not always better ! 
         
-        x0, y0 = 2, -2
+        x0, y0 = 1.8, -1.8
         function = ThreeHumpCamel(x0, y0)
 
-        optimizer = Momentum(learning_rate=0.2, gamma=0.4)
+        optimizer = Momentum(learning_rate=0.5, gamma=0.9)
 
-        n_steps = 20
+        n_steps = 50
 
         xs, ys = np.zeros(shape=(n_steps+1,)), np.zeros(shape=(n_steps+1,))
         xs[0], ys[0] = x0, y0
@@ -92,7 +122,7 @@ if __name__ == "__main__":
         x_vals = np.linspace(-2.01, 2.01, 100)
         y_vals = np.linspace(-2.01, 2.01, 100)
         X, Y = np.meshgrid(x_vals, y_vals)
-        Z = camel_function(X, Y)
+        Z = function.evaluate(X, Y)
 
         # Plot contours
         plt.figure(figsize=(8, 6))
@@ -108,5 +138,6 @@ if __name__ == "__main__":
         plt.legend()
         plt.grid(True)
         plt.axis('equal')
-
+        plt.xlim(-2,2)
+        plt.ylim(-2,2)
         plt.show()
