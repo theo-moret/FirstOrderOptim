@@ -44,6 +44,10 @@ class BoothFunction:
         return {'x': dfdx, 'y': dfdy}
 
 
+    def evaluate (self,x,y):
+        return (x + 2*y - 7) ** 2 + (2*x + y - 5) ** 2
+    
+
     def update(self, new_params):
         """
         Update model params to new_params.
@@ -90,6 +94,9 @@ class ThreeHumpCamel:
 
         return {'x': dfdx, 'y': dfdy}
 
+
+    def evaluate(self,x,y):
+        return 2*x**2 - 1.05*x**4 + x**6/6 + x*y + y**2
 
     def update(self, new_params):
         """
