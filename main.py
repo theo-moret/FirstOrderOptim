@@ -68,7 +68,7 @@ if __name__ == "__main__":
         w = np.random.randn(d) 
         c = -2.0
 
-        # Données de sortie
+        # Data
         noise = np.random.normal(0.0, 0.1, size=n)
         Y = w[indices] + c + noise  
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
         model = LinearModel(dim=d)
         loss = MSELoss()
-        optimizer = SGD(learning_rate=0.2)
+        optimizer = AdaGrad(learning_rate=0.2)
         
         # Training loop
         
