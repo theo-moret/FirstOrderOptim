@@ -59,7 +59,12 @@ class Trainer():
 
                 # Take gradient step, check if Nesterov method to handle look-ahead
                 if optimizer.__class__.__name__ == 'NesterovMomentum':
-                    new_params = optimizer.step(model, loss, y)
+                    if len(optimizer.velocity)==0:
+                        for key in model.params:
+                            optimizer.velocity[key] = np.zeros_like(model.params[key])
+                    lookahead_params = {k: model.params[k] - optimizer.gamma * optimizer.velocity[k] for k in model.params}
+                    grads = model.backward(y_batch, loss, override_params=lookahead_params)
+                    new_params = optimizer.step(model.params, grads)
                 
                 else:
                     new_params = optimizer.step(model.params, grads)

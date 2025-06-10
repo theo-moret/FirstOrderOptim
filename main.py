@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
         model = LinearModel(dim=d)
         loss = MSELoss()
-        optimizer = AdaGrad(learning_rate=0.2)
+        optimizer = NesterovMomentum(learning_rate=0.2, gamma=0.5)
         
         # Training loop
         
