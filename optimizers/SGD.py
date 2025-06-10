@@ -13,10 +13,12 @@ class SGD(BaseOptimizer):
 
     def step(self, params, grads):
         lr = self.lr
+
+        new_params = {}
         for key in params:
-            params[key] = params[key] - lr * grads[key]
+            new_params[key] = params[key] - lr * grads[key]
         
-        return params
+        return new_params
 
 
 if __name__ == "__main__":

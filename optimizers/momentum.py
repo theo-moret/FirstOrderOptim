@@ -29,10 +29,11 @@ class Momentum(BaseOptimizer):
             for key in params:
                 self.velocity[key] =  gamma * self.velocity[key] + (1-gamma)*grads[key]
         
+        new_params = {}
         for key in params:
-            params[key] = params[key] - lr * self.velocity[key]
+            new_params[key] = params[key] - lr * self.velocity[key]
         
-        return params
+        return new_params
 
 
 if __name__ == "__main__":

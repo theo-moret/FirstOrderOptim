@@ -31,10 +31,11 @@ class AdaGrad(BaseOptimizer):
                 self.gradient_cache[key] += grads[key]**2
 
             
+        new_params = {}
         for key in params:
-            params[key] = params[key] - lr / np.sqrt(self.gradient_cache[key] + eps) * grads[key]
+            new_params[key] = params[key] - lr / np.sqrt(self.gradient_cache[key] + eps) * grads[key]
         
-        return params
+        return new_params
 
 
 if __name__ == "__main__":
