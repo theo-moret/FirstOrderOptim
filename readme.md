@@ -6,9 +6,6 @@ A modular Python framework for experimenting with first-order optimization algor
 
 The goal is to provide a clear understanding of how each optimization method works, with clean, readable code.
 
-
-📚 A detailed blog post will come soon.
-
 ---
 
 ## Features
