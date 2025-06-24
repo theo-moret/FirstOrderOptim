@@ -63,8 +63,8 @@ class LinearModel:
         dldy = loss.backward(y_pred,y_true) # shape (N,)
 
         # chain rule
-        dldw = np.mean(dldy[:,np.newaxis] * x, axis=0) # shape (d,)
-        dldc = np.mean(dldy[:,np.newaxis] * 1, axis=0) # shape (1,)
+        dldw = (dldy[:,np.newaxis] * x).sum(axis=0) # shape (d,)
+        dldc = (dldy[:,np.newaxis] * 1).sum() # shape (1,)
 
         return {'coef': dldw, 'intercept': dldc}
 
