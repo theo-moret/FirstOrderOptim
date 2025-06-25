@@ -8,11 +8,12 @@ import logging
 
 class Trainer():
 
-    def __init__(self, model, loss, optimizer, n_epochs, batch_size):
+    def __init__(self, model, loss, optimizer, n_epochs, batch_size, scheduler = None):
 
         self.model = model
         self.loss = loss
         self.optimizer = optimizer
+        self.scheduler = scheduler
         self.n_epochs = n_epochs
         self.batch_size = batch_size
         self.loss_cache = {}
@@ -73,6 +74,10 @@ class Trainer():
 
                 # Update model params
                 model.update(new_params)
+
+                # Update the learning rate via the scheduler if provided
+                if self.scheduler is not None:
+                    self.scheduler.step()
 
             avg_loss = epoch_loss / n_batches
             logging.info(f"Epoch {epoch+1}/{self.n_epochs} - Loss: {avg_loss:.4f}")

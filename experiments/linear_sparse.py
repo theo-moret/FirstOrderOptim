@@ -7,6 +7,7 @@ from losses.mse import MSELoss
 from models.linear_model import LinearModel
 from optimizers.NesterovMomentum import NesterovMomentum
 from optimizers.adagrad import AdaGrad
+from schedulers.decayRateScheduler import DecayRate
 
 # Main
 
@@ -28,11 +29,12 @@ if __name__ == '__main__':
     model = LinearModel(dim=d)
     loss = MSELoss()
     optimizer = AdaGrad(learning_rate=0.2)
+    sch = DecayRate(optimizer=optimizer, decay_rate=0.01)
 
     # Training loop
     epochs = 100
     batch_size = 100
-    trainer = Trainer(model, loss, optimizer, epochs, batch_size)
+    trainer = Trainer(model, loss, optimizer, epochs, batch_size, scheduler=sch)
     trainer.train(X, Y)
 
     print("Norm between true and estimated weights:", np.linalg.norm(w - model.params['coef']))
