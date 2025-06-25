@@ -47,11 +47,12 @@ class LinearModel:
     def backward(self, y_true, loss, override_params = None):
         """
         Return the gradient of the loss with respect to the params. 
-        - override_params : dict[str, np.ndarray] or None. If provided, use these parameters instead of self.params, to compute 
+        - y_true (array): shape (N = nbr of observations,)
+        - override_params (dict[str, np.ndarray] or None): If provided, use these parameters instead of self.params, to compute 
         look-ahead gradient, eg. Nesterov Momentum
         """
             
-        x = self.cache['x']
+        x = self.cache['x'] # shape (N,d)
 
         # to handle look-ahead
         if override_params is not None:
@@ -62,9 +63,9 @@ class LinearModel:
         # gradient of the loss wrt y_pred
         dldy = loss.backward(y_pred,y_true) # shape (N,)
 
-        # chain rule
+        # chain rule, already divided by 1/N in dldy, no need to np.mean
         dldw = (dldy[:,np.newaxis] * x).sum(axis=0) # shape (d,)
-        dldc = (dldy[:,np.newaxis] * 1).sum() # shape (1,)
+        dldc = dldy.sum() # shape (1,)
 
         return {'coef': dldw, 'intercept': dldc}
 
