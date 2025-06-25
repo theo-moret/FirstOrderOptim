@@ -20,8 +20,8 @@ if __name__ == '__main__':
     function = ThreeHumpCamel(x0, y0)
 
     sgd = SGD(learning_rate=0.5)
-    momentum = Momentum(learning_rate=0.3, gamma=0.9)
-    nesterov = NesterovMomentum(learning_rate=0.3, gamma=0.9)
+    momentum = Momentum(learning_rate=0.35, gamma=0.9)
+    nesterov = NesterovMomentum(learning_rate=0.06, gamma=0.8)
 
     n_steps = 35
 
@@ -56,11 +56,18 @@ if __name__ == '__main__':
 
     for i in range(n_steps):
         print(f'Step {i+1} : {function.forward()}')
+        # look-ahead weights for the gradient
+        lookahead = {k: function.params[k] - nesterov.gamma * nesterov.velocity.get(k, 0.0) for k in function.params}
+
+        # temporary update so backward() uses the look-ahead point
+        original = function.params
+        function.params = lookahead
         grads = function.backward()
+        function.params = original        # restore
+
         new_params = nesterov.step(function.params, grads)
         function.update(new_params)
         xs_nesterov[i+1], ys_nesterov[i+1] = new_params['x'], new_params['y']
-
 
     # Plotting
     x_vals = np.linspace(-2.01, 2.01, 100)

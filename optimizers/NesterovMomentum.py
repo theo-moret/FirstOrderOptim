@@ -30,7 +30,7 @@ class NesterovMomentum(BaseOptimizer):
         for key in params:
             v_prev = self.velocity[key]
             self.velocity[key] = gamma * self.velocity[key] + lr * grads[key]
-            new_params[key] -= gamma * v_prev + lr * grads[key]
+            new_params[key] = params[key] - gamma * v_prev + lr * grads[key]
 
         return new_params
         
