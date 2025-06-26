@@ -2,8 +2,9 @@
 
 import numpy as np
 
-from baseScheduler import BaseScheduler
-from ..optimizers.base import BaseOptimizer
+from first_order_optim.scheduler.base_scheduler import BaseScheduler
+from first_order_optim.optimizer.base import BaseOptimizer
+
 
 # Class 
 

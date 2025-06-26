@@ -4,11 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-from models.test_functions import ThreeHumpCamel
-from optimizers.momentum import Momentum
-from optimizers.SGD import SGD
-from optimizers.NesterovMomentum import NesterovMomentum
-from schedulers.decayRateScheduler import DecayRate
+from first_order_optim.model import ThreeHumpCamel
+from first_order_optim.optimizer import SGD, Momentum, NesterovMomentum
+from first_order_optim.scheduler import DecayRateScheduler
 
 
 # Main
@@ -22,7 +20,7 @@ if __name__ == '__main__':
     function = ThreeHumpCamel(x0, y0)
 
     sgd = SGD(learning_rate=0.5)
-    sch_sgd = DecayRate(optimizer=sgd, decay_rate=0.3)
+    sch_sgd = DecayRateScheduler(optimizer=sgd, decay_rate=0.3)
 
     momentum = Momentum(learning_rate=0.35, gamma=0.9)
     nesterov = NesterovMomentum(learning_rate=0.06, gamma=0.8)

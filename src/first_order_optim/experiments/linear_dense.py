@@ -2,10 +2,10 @@
 
 import numpy as np
 
-from utils.trainer import Trainer
-from losses.mse import MSELoss
-from models.linear_model import LinearModel
-from optimizers.adagrad import AdaGrad
+from first_order_optim.utils import Trainer
+from first_order_optim.loss import MSELoss
+from first_order_optim.model import LinearModel
+from first_order_optim.optimizer import AdaGrad
 
 # Main
 
