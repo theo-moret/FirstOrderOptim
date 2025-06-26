@@ -1,10 +1,8 @@
 # First-Order-Optim  
 
-A minimal, **NumPy-only** playground for first-order optimisation algorithms  
-(SGD, Momentum, Nesterov, AdaGrad … and more on the way).
+A minimal, **NumPy-only** playground for first-order optimisation algorithms (SGD, Momentum, Nesterov, AdaGrad … and more soon).
 
-The code is deliberately small and self-contained so you can read every line,
-tweak the maths, and run quick experiments in a notebook.
+The code is deliberately small and self-contained so you can read every line, and run quick experiments in a notebook.
 
 ---
 
@@ -23,8 +21,7 @@ pip install -e .
 
 ## Ready-made experiments 
 
-Each experiment is a normal Python module, so you can launch them with  
-`python -m …` or the small `main.py` helper:
+Each experiment is a normal Python module, so you can launch them with `python -m …` or the small `main.py` helper:
 
 ```bash
 # dense linear regression
@@ -59,8 +56,7 @@ FirstOrderOptim/
         └── utils/               ← Trainer, ...
 ```
 
-Thanks to the **src-layout**, you can open a notebook anywhere and
-still `import first_order_optim …` after the editable install.
+Thanks to the **src-layout**, you can open a notebook anywhere and still `import first_order_optim …` after the editable install.
 
 ---
 
