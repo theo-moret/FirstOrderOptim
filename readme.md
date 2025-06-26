@@ -1,80 +1,69 @@
----
+# First-Order-Optim  
 
-# FirstOrderOptim
+A minimal, **NumPy-only** playground for first-order optimisation algorithms  
+(SGD, Momentum, Nesterov, AdaGrad … and more on the way).
 
-A modular Python framework for experimenting with first-order optimization algorithms on models and test functions. This project is designed for educational purposes. It only relies on [`numpy`](https://numpy.org/) for computation, [`matplotlib`](https://matplotlib.org/) for visualization and `logging` for monitoring. 
-
-The goal is to provide a clear understanding of how each optimization method works, with clean, readable code.
-
----
-
-## Features
-
-- **Linear Regression** (dense and sparse examples)
-- **Classical Test Functions** (Booth, Three-Hump Camel)
-- **Optimizers:** SGD, Momentum, Nesterov Momentum, AdaGrad (more to come)
-- **Custom Training Loop** with batching and shuffling
-- **Pre-Implemented Experiments** via a launcher script
-- **Modular code structure**
+The code is deliberately small and self-contained so you can read every line,
+tweak the maths, and run quick experiments in a notebook.
 
 ---
 
-## Installation
-
-Clone the repository and install dependencies:
+## Quick install 
 
 ```bash
 git clone https://github.com/theo-moret/FirstOrderOptim
 cd FirstOrderOptim
-pip install numpy matplotlib
+python -m venv .venv && source .venv/bin/activate
+pip install -e .  
 ```
 
----
+*Requires Python ≥ 3.12.*
 
-## Usage
 
-### Run an Experiment
 
-Use the launcher script to select and run an experiment:
+## Ready-made experiments 
+
+Each experiment is a normal Python module, so you can launch them with  
+`python -m …` or the small `main.py` helper:
 
 ```bash
-python3 main.py linear_dense
-python3 main.py linear_sparse
-python3 main.py test_function
+# dense linear regression
+python -m first_order_optim.experiments.linear_dense
+# or
+python main.py linear_dense
 ```
 
-This will internally run the corresponding script in the experiments folder using Python’s module system.
+Available experiments:
+
+| Command          | What it does                          |
+|------------------|---------------------------------------|
+| `linear_dense`   | usual linear regression task          |
+| `linear_sparse`  | sparse data, for AdaGrad              |
+| `test_function`  | 2-D toy surface: ThreeHumpCamel       |
 
 ---
 
-## Project Structure
+## Project layout 
 
 ```
 FirstOrderOptim/
-│
-├── main.py                      # Launcher script
-├── experiments/
-│   ├── linear_dense.py          # Dense linear regression experiment
-│   ├── linear_sparse.py         # Sparse linear regression experiment
-│   └── test_function.py         # Test function optimization experiment
-├── models/
-│   ├── linear_model.py
-│   └── test_functions.py
-├── optimizers/
-│   ├── SGD.py
-│   ├── momentum.py
-│   ├── NesterovMomentum.py
-│   └── adagrad.py
-├── losses/
-│   └── mse.py
-├── utils/
-│   └── trainer.py
+├── pyproject.toml               ← single source of build metadata
+├── main.py                      ← tiny launcher 
+└── src/
+    └── first_order_optim/       ← import package root
+        ├── experiments/         ← runnable examples
+        ├── loss/                ← MSE, ...
+        ├── model/               ← LinearModel, ThreeHumpCamel, ...
+        ├── optimizer/           ← SGD, Momentum, AdaGrad, ...
+        ├── scheduler/           ← DecayRateScheduler, ...
+        └── utils/               ← Trainer, ...
 ```
+
+Thanks to the **src-layout**, you can open a notebook anywhere and
+still `import first_order_optim …` after the editable install.
 
 ---
 
-## Customization
+## License
 
-- **Add new optimizers:** Create a new class in optimizers inheriting from `BaseOptimizer`.
-- **Add new models or test functions:** Extend models with your own classes.
-- **Change training parameters:** Edit the relevant script in experiments.
+MIT — do whatever you like.

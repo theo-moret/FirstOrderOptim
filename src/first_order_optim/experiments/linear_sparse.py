@@ -6,7 +6,6 @@ from first_order_optim.utils import Trainer
 from first_order_optim.loss import MSELoss
 from first_order_optim.model import LinearModel
 from first_order_optim.optimizer import AdaGrad
-from first_order_optim.scheduler import DecayRateScheduler
 
 # Main
 
@@ -16,7 +15,7 @@ if __name__ == '__main__':
 
     # Generate sparse data
     d = 1000
-    n = 10000
+    n = 100000
     indices = np.random.randint(0, d, size=n)
     X = np.eye(d)[indices]
     w = np.random.randn(d)
@@ -27,13 +26,25 @@ if __name__ == '__main__':
     # Initialize model, loss, optimizer
     model = LinearModel(dim=d)
     loss = MSELoss()
-    optimizer = AdaGrad(learning_rate=0.2)
-    sch = DecayRateScheduler(optimizer=optimizer, decay_rate=0.01)
+    optimizer = AdaGrad(learning_rate=0.5)
 
     # Training loop
     epochs = 100
     batch_size = 100
-    trainer = Trainer(model, loss, optimizer, epochs, batch_size, scheduler=sch)
+    trainer = Trainer(model, loss, optimizer, epochs, batch_size)
     trainer.train(X, Y)
 
-    print("Norm between true and estimated weights:", np.linalg.norm(w - model.params['coef']))
+    # true vs estimated weights
+    w_est = model.params['coef']    
+    c_est = model.params['intercept']
+
+    # compute percent‐error 
+    weight_pct_errors = np.abs(w_est - w) / np.abs(w) * 100
+    intercept_pct_error = np.abs(c_est - c) / np.abs(c) * 100
+    all_pct_errors = np.concatenate([weight_pct_errors, intercept_pct_error])
+
+    # average
+    avg_pct_error = np.mean(all_pct_errors)
+
+    print(f"Average percent error across parameters: {avg_pct_error:.2f}%")
+

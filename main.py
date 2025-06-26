@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import argparse
 import subprocess
 import sys
@@ -10,4 +11,12 @@ if __name__ == "__main__":
         help="Which experiment to run"
     )
     args = parser.parse_args()
-    subprocess.run([sys.executable, "-m", f"experiments.{args.experiment}"])
+
+    # note the added package prefix:
+    module = f"first_order_optim.experiments.{args.experiment}"
+    return_code = subprocess.run(
+        [sys.executable, "-m", module],
+        check=False
+    ).returncode
+
+    sys.exit(return_code)

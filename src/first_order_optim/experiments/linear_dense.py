@@ -5,7 +5,7 @@ import numpy as np
 from first_order_optim.utils import Trainer
 from first_order_optim.loss import MSELoss
 from first_order_optim.model import LinearModel
-from first_order_optim.optimizer import AdaGrad
+from first_order_optim.optimizer import Momentum
 
 # Main
 
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     # Initialize model, loss, optimizer
     model = LinearModel(dim=3)
     loss = MSELoss()
-    optimizer = AdaGrad(learning_rate=0.2)
+    optimizer = Momentum(learning_rate=0.3, gamma=0.8)
 
     # Training loop
     epochs = 10
