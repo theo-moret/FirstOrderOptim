@@ -2,12 +2,11 @@
 
 import numpy as np
 
-from utils.trainer import Trainer
-from losses.mse import MSELoss
-from models.linear_model import LinearModel
-from optimizers.NesterovMomentum import NesterovMomentum
-from optimizers.adagrad import AdaGrad
-from schedulers.decayRateScheduler import DecayRate
+from first_order_optim.utils import Trainer
+from first_order_optim.loss import MSELoss
+from first_order_optim.model import LinearModel
+from first_order_optim.optimizer import AdaGrad
+from first_order_optim.scheduler import DecayRateScheduler
 
 # Main
 
@@ -29,7 +28,7 @@ if __name__ == '__main__':
     model = LinearModel(dim=d)
     loss = MSELoss()
     optimizer = AdaGrad(learning_rate=0.2)
-    sch = DecayRate(optimizer=optimizer, decay_rate=0.01)
+    sch = DecayRateScheduler(optimizer=optimizer, decay_rate=0.01)
 
     # Training loop
     epochs = 100

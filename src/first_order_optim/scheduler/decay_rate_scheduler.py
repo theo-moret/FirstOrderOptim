@@ -1,12 +1,12 @@
 # Import 
 
-from .baseScheduler import BaseScheduler
-from optimizers.base import BaseOptimizer
+from first_order_optim.scheduler.base_scheduler import BaseScheduler
+from first_order_optim.optimizer.base import BaseOptimizer
 
 # Class 
 
 
-class DecayRate(BaseScheduler):
+class DecayRateScheduler(BaseScheduler):
     """
     Time–based (inverse) learning-rate decay eta_t = eta_0 / (1 + k*t) with:
         t = nbr of steps

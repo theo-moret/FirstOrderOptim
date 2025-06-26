@@ -1,8 +1,7 @@
 
 # Import 
 
-from .base import BaseOptimizer
-
+from first_order_optim.optimizer.base import BaseOptimizer
 
 # Class
 
