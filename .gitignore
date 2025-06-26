@@ -1,4 +1,5 @@
 # Python byte-code
 __pycache__/
 *.py[cod]
-.venv.DS_Store
+.venv
+.DS_Store
