@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from first_order_optim.scheduler.base_scheduler import BaseScheduler
+from first_order_optim.scheduler.base import BaseScheduler
 from first_order_optim.optimizer.base import BaseOptimizer
 
 
@@ -16,10 +16,10 @@ class ExpDecayScheduler(BaseScheduler):
         k = decay rate 
     """
 
-    def __init__(self, optimizer: BaseOptimizer, decay_rate: float):
-        self.optimizer = optimizer
+    def __init__(self, decay_rate: float):
+        super().__init__()
         self.decay_rate = decay_rate
-        self.eta0 = optimizer.lr
+        self.eta0 = self.optimizer.lr
         self.time_step = 0
 
 

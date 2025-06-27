@@ -9,13 +9,13 @@ from first_order_optim.optimizer.base import BaseOptimizer
 
 class AdaGrad(BaseOptimizer):
 
-    def __init__(self, learning_rate=1e-2, eps=1e-8):
-        super().__init__(learning_rate)
+    def __init__(self, eps: float = 1e-8):
+        super().__init__()
         self.eps = eps
         self.gradient_cache = {}
 
-    def step(self, params, grads):
-        """ Implement Adagrad optimizer step. """
+    def step(self, params: dict[str, np.ndarray], grads: dict[str, np.ndarray]) -> dict[str, np.ndarray]:
+        """ See BaseOptimizer.step, but implement the optimizer step and return dict of updated params. """
 
         lr = self.lr
         eps = self.eps

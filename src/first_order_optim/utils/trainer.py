@@ -3,12 +3,16 @@
 import numpy as np
 import logging  
 
+from first_order_optim.model.base import BaseModel
+from first_order_optim.loss.base import BaseLoss
+from first_order_optim.optimizer.base import BaseOptimizer
+from first_order_optim.scheduler.base import BaseScheduler
 
 # Class
 
 class Trainer():
 
-    def __init__(self, model, loss, optimizer, n_epochs, batch_size, scheduler = None):
+    def __init__(self, model: BaseModel, loss: BaseLoss, optimizer: BaseOptimizer, n_epochs: int, batch_size: int, scheduler: BaseScheduler = None):
 
         self.model = model
         self.loss = loss
@@ -19,10 +23,15 @@ class Trainer():
         self.loss_cache = {}
 
 
-    def train(self, X, Y):
+    def train(self, X: np.ndarray, Y: np.ndarray):
         """
-        Set up a training loop for the model given data (X,Y). The parameter print_loss allows for loss printing at the beginning of every epoch. 
-        If the number of epoch is 1, then the losses are stocked into the cache for every batch.
+        Set up a training loop for the model given data (X,Y), going through the data set for n_epochs, each divided into n_batches after shuffling at the beggining of each epoch. 
+        Schematically does : For epoch -> Shuffle -> For bacth -> Make prediction -> Calculate loss + gradients of the loss wrt params -> Take optimizer step -> Update model -> Take scheduler step. 
+
+        Args:
+
+        - X (np.ndarray of shape (N,d)): N being the number of observations and d the dimension of covariates.
+        - Y (np.ndarray of shape (N,p)): N being the number of observations and p the dimension of the label. 
         """
 
         model = self.model

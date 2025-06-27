@@ -1,19 +1,21 @@
 
 # Import 
 
+import numpy as np
+
 from first_order_optim.optimizer.base import BaseOptimizer
 
 # Class
 
 class Momentum(BaseOptimizer):
 
-    def __init__(self, learning_rate, gamma):
-        super().__init__(learning_rate)
+    def __init__(self, gamma: float):
+        super().__init__()
         self.gamma = gamma
         self.velocity = {}
 
-    def step(self, params, grads):
-
+    def step(self, params: dict[str, np.ndarray], grads: dict[str, np.ndarray]) -> dict[str, np.ndarray]:
+        """ See BaseOptimizer.step, but implement the optimizer step and return dict of updated params. """
         lr = self.lr
         gamma = self.gamma
 

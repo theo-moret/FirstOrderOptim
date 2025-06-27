@@ -2,23 +2,24 @@
 
 import numpy as np
 
+from first_order_optim.model.base import BaseModel
 
 # Class
 
-class BoothFunction:
+class BoothFunction(BaseModel):
     
-    def __init__(self, x0, y0):
-
-        self.params = {
-            'x' : x0,
-            'y' : y0
-        }
-
-        return None
-
-    def forward(self):
+    def __init__(self, x0: float, y0: float):
         """
-        Return the value of the Booth Function evaluated at (x,y)
+        Set the starting points at (x0,y0).
+        """
+        super().__init__()
+        self.params['x'] = x0
+        self.params['y'] = y0
+     
+
+    def forward(self) -> float:
+        """
+        Return the value of the Booth Function evaluated at its current (x,y).
         """
 
         x = self.params['x']
@@ -30,7 +31,7 @@ class BoothFunction:
     
 
 
-    def backward(self):
+    def backward(self) -> dict[str, float]:
         """
         Return the gradient of the Booth function wrt to each parameter x and y.
         """
@@ -44,32 +45,28 @@ class BoothFunction:
         return {'x': dfdx, 'y': dfdy}
 
 
-    def evaluate (self,x,y):
+    def evaluate (self, x: float, y: float) -> float:
+        """Return the value of the function at its current (x,y)."""
         return (x + 2*y - 7) ** 2 + (2*x + y - 5) ** 2
     
 
-    def update(self, new_params):
-        """
-        Update model params to new_params.
-        """
-        self.params = new_params
-        return None
+
+
+class ThreeHumpCamel(BaseModel):
     
-
-class ThreeHumpCamel:
-    
-    def __init__(self, x0, y0):
-
-        self.params = {
-            'x' : x0,
-            'y' : y0
-        }
-
-        return None
-
-    def forward(self):
+    def __init__(self, x0: float, y0: float):
         """
-        Return the value of the Booth Function evaluated at (x,y)
+        Set the starting points at (x0,y0).
+        """
+        super().__init__()
+        self.params['x'] = x0
+        self.params['y'] = y0
+     
+
+
+    def forward(self) -> float:
+        """
+        Return the value of the Booth Function evaluated at its current (x,y).
         """
 
         x = self.params['x']
@@ -81,7 +78,7 @@ class ThreeHumpCamel:
     
 
 
-    def backward(self):
+    def backward(self) -> dict[str, float]:
         """
         Return the gradient of the Booth function wrt to each parameter x and y.
         """
@@ -95,15 +92,11 @@ class ThreeHumpCamel:
         return {'x': dfdx, 'y': dfdy}
 
 
-    def evaluate(self,x,y):
+    def evaluate(self, x: float, y: float) -> float:
+        """Return the value of the function at its current (x,y)."""
         return 2*x**2 - 1.05*x**4 + x**6/6 + x*y + y**2
 
-    def update(self, new_params):
-        """
-        Update model params to new_params.
-        """
-        self.params = new_params
-        return None 
+
     
 if __name__ == "__main__":
     pass

@@ -1,6 +1,6 @@
 # Import 
 
-from first_order_optim.scheduler.base_scheduler import BaseScheduler
+from first_order_optim.scheduler.base import BaseScheduler
 from first_order_optim.optimizer.base import BaseOptimizer
 
 # Class 
@@ -13,8 +13,8 @@ class StepDecayScheduler(BaseScheduler):
         gamma = drop factor
     """
 
-    def __init__(self, optimizer: BaseOptimizer, step_size: int, gamma: float):
-        self.optimizer = optimizer
+    def __init__(self, step_size: int, gamma: float):
+        super().__init__()
         self.step_size = step_size
         self.gamma = gamma
         self.time_step = 0
