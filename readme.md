@@ -48,6 +48,7 @@ Available experiments:
 FirstOrderOptim/
 ├── pyproject.toml               ← single source of build metadata
 ├── main.py                      ← tiny launcher 
+├── notebook.ipynb               ← notebook to have an overview of optimization methods and package uses
 └── src/
     └── first_order_optim/       ← import package root
         ├── experiments/         ← runnable examples
