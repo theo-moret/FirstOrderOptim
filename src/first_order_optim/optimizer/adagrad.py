@@ -9,8 +9,8 @@ from first_order_optim.optimizer.base import BaseOptimizer
 
 class AdaGrad(BaseOptimizer):
 
-    def __init__(self, eps: float = 1e-8):
-        super().__init__()
+    def __init__(self, learning_rate: float, eps: float = 1e-8):
+        super().__init__(learning_rate)
         self.eps = eps
         self.gradient_cache = {}
 

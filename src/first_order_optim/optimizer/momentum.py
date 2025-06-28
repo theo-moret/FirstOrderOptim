@@ -9,8 +9,8 @@ from first_order_optim.optimizer.base import BaseOptimizer
 
 class Momentum(BaseOptimizer):
 
-    def __init__(self, gamma: float):
-        super().__init__()
+    def __init__(self, learning_rate: float, gamma: float):
+        super().__init__(learning_rate)
         self.gamma = gamma
         self.velocity = {}
 

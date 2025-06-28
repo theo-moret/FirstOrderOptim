@@ -13,8 +13,8 @@ class StepDecayScheduler(BaseScheduler):
         gamma = drop factor
     """
 
-    def __init__(self, step_size: int, gamma: float):
-        super().__init__()
+    def __init__(self, optimizer: BaseOptimizer, step_size: int, gamma: float):
+        super().__init__(optimizer)
         self.step_size = step_size
         self.gamma = gamma
         self.time_step = 0

@@ -13,8 +13,8 @@ class DecayRateScheduler(BaseScheduler):
         k = decay rate, positive number
     """
 
-    def __init__(self, decay_rate: float):
-        super().__init__()
+    def __init__(self, optimizer: BaseOptimizer, decay_rate: float):
+        super().__init__(optimizer)
         self.decay_rate = decay_rate
         self.eta0 = self.optimizer.lr
         self.time_step = 0
