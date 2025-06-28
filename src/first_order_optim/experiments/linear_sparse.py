@@ -14,8 +14,8 @@ if __name__ == '__main__':
     np.random.seed(1)
 
     # Generate sparse data
-    d = 1000
-    n = 100000
+    d = 100
+    n = 10000
     indices = np.random.randint(0, d, size=n)
     X = np.eye(d)[indices]
     w = np.random.randn(d)
@@ -34,17 +34,14 @@ if __name__ == '__main__':
     trainer = Trainer(model, loss, optimizer, epochs, batch_size)
     trainer.train(X, Y)
 
-    # true vs estimated weights
-    w_est = model.params['coef']    
-    c_est = model.params['intercept']
+    # True vs estimated weights
+    w_esti = model.params['coef']    
+    c_esti = model.params['intercept']
 
-    # compute percent‐error 
-    weight_pct_errors = np.abs(w_est - w) / np.abs(w) * 100
-    intercept_pct_error = np.abs(c_est - c) / np.abs(c) * 100
-    all_pct_errors = np.concatenate([weight_pct_errors, intercept_pct_error])
+    # Compute MSE for weights and bias 
+    mse_w = np.mean((w_esti - w)**2).item()
+    print(f"MSE on w: {mse_w:.4f}")
+    bias_error = abs(c_esti - c).item()
+    print(f"Error on c (bias): {bias_error:.4f}")
 
-    # average
-    avg_pct_error = np.mean(all_pct_errors)
-
-    print(f"Average percent error across parameters: {avg_pct_error:.2f}%")
 
