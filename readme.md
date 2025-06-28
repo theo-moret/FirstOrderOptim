@@ -13,6 +13,8 @@ git clone https://github.com/theo-moret/FirstOrderOptim
 cd FirstOrderOptim
 python -m venv .venv && source .venv/bin/activate
 pip install -e .  
+#or if you want the Jupyter Tooling too
+pip install -e .[notebook]
 ```
 
 *Requires Python ≥ 3.12.*
