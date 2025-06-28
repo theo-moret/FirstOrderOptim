@@ -22,9 +22,6 @@ class Trainer():
         self.batch_size = batch_size
         self.loss_cache = [[] for k in range(n_epochs)]
         
-        self.grad_cache = {}
-        for param in self.model.params:
-            self.grad_cache[param] = [[] for k in range(n_epochs)]
 
 
     def train(self, X: np.ndarray, Y: np.ndarray):
@@ -92,10 +89,9 @@ class Trainer():
                 if self.scheduler is not None:
                     self.scheduler.step()
 
-                # Update loss and gradient caches
+                # Update loss cache
                 self.loss_cache[epoch].append(batch_loss)
-                for param in self.model.params:
-                    self.grad_cache[param][epoch].append(grads[param])
+
 
             avg_loss = epoch_loss / n_batches
             logging.info(f"Epoch {epoch+1}/{self.n_epochs} - Loss: {avg_loss:.4f}")
@@ -110,11 +106,6 @@ class Trainer():
         """
         return np.array(self.loss_cache)
     
-    def get_grad_cache(self):
-        """
-        Return the grad cache.
-        """
-        return self.grad_cache
 
 
 
