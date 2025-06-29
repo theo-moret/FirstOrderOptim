@@ -24,8 +24,9 @@ class StepDecayScheduler(BaseScheduler):
         """Update the learning rate every n steps as eta_t = eta_{t-n} / gamma, and update the learning rate of the optimizer in place."""
         self.time_step += 1
         if self.time_step % self.step_size == 0:
-            self.optimizer.lr = self.optimizer.lr / self.gamma
-
+            current_lr = self.optimizer.lr
+            new_lr = current_lr/self.gamma
+            self.optimizer.lr = new_lr
         
 
 # Main 
